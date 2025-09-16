@@ -5,7 +5,6 @@ import (
 	"strings"
 )
 
-<<<<<<< Updated upstream
 // Limite de poids totale autorisée dans l'inventaire
 const PoidsMaxInventaire = 50
 
@@ -31,8 +30,6 @@ func PoidsTotal(j *Joueur) int {
 	return total
 }
 
-=======
->>>>>>> Stashed changes
 func afficherInventaire(j *Joueur) {
 	if estInventaireVide(j) {
 		fmt.Println("🧳 Votre inventaire est vide.")
@@ -45,7 +42,6 @@ func afficherInventaire(j *Joueur) {
 }
 
 func utiliserPotion(j *Joueur) {
-<<<<<<< Updated upstream
 	if retirerObjetParNom(j, "potion") {
 		j.HP += 20
 		if j.HP > j.HPMax {
@@ -53,18 +49,6 @@ func utiliserPotion(j *Joueur) {
 		}
 		fmt.Printf("💖 Potion utilisée ! HP : %d/%d\n", j.HP, j.HPMax)
 		return
-=======
-	for i, objet := range j.Inventaire {
-		if strings.ToLower(objet) == "potion" {
-			j.HP += 20
-			if j.HP > j.HPMax {
-				j.HP = j.HPMax
-			}
-			fmt.Printf("💖 Potion utilisée ! HP : %d/%d\n", j.HP, j.HPMax)
-			retirerObjet(j, i) // retire la potion de l'inventaire
-			return
-		}
->>>>>>> Stashed changes
 	}
 	fmt.Println("❌ Vous n'avez pas de potion !")
 }
@@ -76,7 +60,6 @@ func retirerObjet(j *Joueur, index int) {
 	j.Inventaire = append(j.Inventaire[:index], j.Inventaire[index+1:]...)
 }
 
-<<<<<<< Updated upstream
 // ajouterObjet ajoute un objet à l'inventaire
 func ajouterObjet(j *Joueur, objet string) bool {
 	poidsActuel := PoidsTotal(j)
@@ -101,8 +84,6 @@ func retirerObjetParNom(j *Joueur, nom string) bool {
 	return false
 }
 
-=======
->>>>>>> Stashed changes
 func estInventaireVide(j *Joueur) bool {
 	return len(j.Inventaire) == 0
 }
