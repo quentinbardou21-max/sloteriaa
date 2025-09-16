@@ -12,7 +12,7 @@ type Joueur struct {
 	Or         int
 }
 
-func main() {
+func RunMenu() {
 	// Création d'un joueur test
 	joueur := Joueur{
 		Nom:        "Héros",
