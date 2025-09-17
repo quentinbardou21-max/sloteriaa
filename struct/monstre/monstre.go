@@ -9,6 +9,7 @@ import (
 
 type Monstre struct {
 	Nom           string
+	HPActuels     int
 	HPMax         int
 	Attaque       int
 	Defense       int
@@ -50,6 +51,7 @@ func armuresPourMonstre(niveau int) []objet.Armure {
 	if rand.Intn(2) == 0 {
 		liste = append(liste, objet.CreerArmure("CasqueCuir"))
 	}
+
 	if niveau >= 3 && rand.Intn(2) == 0 {
 		liste = append(liste, objet.CreerArmure("PlastronCuirRenforce"))
 	}
@@ -72,6 +74,7 @@ func armuresPourMonstre(niveau int) []objet.Armure {
 func CreerMonstre(niveau int) Monstre {
 	var nom string
 	var hpMax int
+	var hpActuels int
 	var defense int
 	var attaque int
 	var peutAvoirArme bool
@@ -80,66 +83,77 @@ func CreerMonstre(niveau int) Monstre {
 	case 1:
 		nom = "Rat géant"
 		hpMax = 100 + rand.Intn(10)
+		hpActuels = hpMax
 		defense = 3
 		attaque = 8 + rand.Intn(3)
 		peutAvoirArme = true
 	case 2:
 		nom = "Gobelin"
 		hpMax = 110 + rand.Intn(20)
+		hpActuels = hpMax
 		defense = 5
 		attaque = 10 + rand.Intn(5)
 		peutAvoirArme = true
 	case 3:
 		nom = "Bandit"
 		hpMax = 120 + rand.Intn(20)
+		hpActuels = hpMax
 		defense = 7
 		attaque = 12 + rand.Intn(5)
 		peutAvoirArme = true
 	case 4:
 		nom = "Orc"
 		hpMax = 130 + rand.Intn(20)
+		hpActuels = hpMax
 		defense = 10
 		attaque = 15 + rand.Intn(5)
 		peutAvoirArme = true
 	case 5:
 		nom = "Gnoll"
 		hpMax = 140 + rand.Intn(20)
+		hpActuels = hpMax
 		defense = 12
 		attaque = 18 + rand.Intn(5)
 		peutAvoirArme = true
 	case 6:
 		nom = "Troll"
 		hpMax = 160 + rand.Intn(20)
+		hpActuels = hpMax
 		defense = 15
 		attaque = 20 + rand.Intn(5)
 		peutAvoirArme = true
 	case 7:
 		nom = "Ogre"
 		hpMax = 180 + rand.Intn(20)
+		hpActuels = hpMax
 		defense = 18
 		attaque = 25 + rand.Intn(8)
 		peutAvoirArme = true
 	case 8:
 		nom = "Élémentaire de pierre"
 		hpMax = 210 + rand.Intn(20)
+		hpActuels = hpMax
 		defense = 22
 		attaque = 33 + rand.Intn(8)
 		peutAvoirArme = false
 	case 9:
 		nom = "Chevalier maudit"
 		hpMax = 210 + rand.Intn(20)
+		hpActuels = hpMax
 		defense = 25
 		attaque = 30 + rand.Intn(8)
 		peutAvoirArme = true
 	case 10:
 		nom = "Dragon"
 		hpMax = 260 + rand.Intn(20)
+		hpActuels = hpMax
 		defense = 30
 		attaque = 45 + rand.Intn(10)
 		peutAvoirArme = false
 	default:
 		nom = "Créature inconnue"
 		hpMax = 100 + rand.Intn(50)
+		hpActuels = hpMax
 		defense = 5 + rand.Intn(5)
 		attaque = 10 + rand.Intn(10)
 		peutAvoirArme = true
@@ -147,6 +161,7 @@ func CreerMonstre(niveau int) Monstre {
 
 	return Monstre{
 		Nom:           nom,
+		HPActuels:     hpActuels,
 		HPMax:         hpMax,
 		Attaque:       attaque,
 		Defense:       defense,
@@ -160,7 +175,7 @@ func CreerMonstre(niveau int) Monstre {
 // Affiche les infos d’un monstre
 func AfficherMonstre(m Monstre) {
 	fmt.Printf("Nom : %s\nHP : %d\nAttaque : %d\nDéfense : %d\n",
-		m.Nom, m.HPMax, m.Attaque, m.Defense)
+		m.Nom, m.HPActuels, m.Attaque, m.Defense)
 
 	if m.PeutAvoirArme {
 		fmt.Printf("Arme (monstre) : %s (Atk %d, Instab %d, Sauv %d)\n", m.Arme.Nom, m.Arme.EffetAttaque, m.Arme.Instabilite, m.Arme.Sauvagerie)
