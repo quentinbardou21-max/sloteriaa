@@ -4,53 +4,44 @@ import (
 	"fmt"
 	"os"
 	"time"
+
+	"sloteriaa/internal/personnage"
+
+	"runtime"
+
+	"github.com/eiannone/keyboard"
+	"golang.org/x/sys/windows"
 )
 
-type Joueur struct {
-	Nom        string
-	Inventaire []string
-	Or         int
-	HP         int
-	HPMax      int
-}
-
 func RunMenu() {
+	enableANSIWindows()
 	// Création d'un joueur test
-	joueur := Joueur{
+	joueur := personnage.Personnage{
 		Nom:        "Héros",
 		Inventaire: []string{"Potion"},
-		Or:         50,
-		HP:         80,
-		HPMax:      100,
+		Argent:     50,
+		PVActuels:  80,
+		PVMax:      100,
 	}
 
 	afficherMenu(&joueur)
 }
 
-func afficherMenu(joueur *Joueur) {
+func afficherMenu(joueur *personnage.Personnage) {
 	for {
 		afficherTitre()
-		fmt.Println("1. Entrer dans le jeu")
-		fmt.Println("2. Quitter")
-		fmt.Print("\nVotre choix : ")
-
-		var choix int
-		fmt.Scanln(&choix)
-
+		options := []string{"Entrer dans le jeu", "Quitter"}
+		selection := afficherMenuAvecFleches(options)
 		clearMenuBody()
 
-		switch choix {
-		case 1:
+		switch selection {
+		case 0:
 			startGame(joueur)
-		case 2:
+		case 1:
 			clearScreen()
 			fmt.Println("Au revoir !")
 			time.Sleep(1 * time.Second)
 			os.Exit(0)
-		default:
-			fmt.Println("Choix invalide, appuyez sur Entrée pour réessayer...")
-			fmt.Scanln()
-			clearMenuBody()
 		}
 	}
 }
@@ -76,74 +67,114 @@ func clearScreen() {
 	fmt.Print("\033[H\033[2J")
 }
 
-func startGame(joueur *Joueur) {
+func startGame(joueur *personnage.Personnage) {
 	for {
 		afficherTitre()
-		fmt.Printf("Bienvenue, %s ! HP: %d/%d - Or: %d\n", joueur.Nom, joueur.HP, joueur.HPMax, joueur.Or)
-		fmt.Println("\n1. Afficher l'inventaire")
-		fmt.Println("2. Utiliser une potion")
-		fmt.Println("3. Retour au menu principal")
-		fmt.Print("\nVotre choix : ")
-
-		var choix int
-		fmt.Scanln(&choix)
-
+		fmt.Printf("Bienvenue, %s ! PV: %d/%d - Argent: %d\n", joueur.Nom, joueur.PVActuels, joueur.PVMax, joueur.Argent)
+		options := []string{"Afficher l'inventaire", "Utiliser une potion", "Retour au menu principal"}
+		selection := afficherMenuAvecFleches(options)
 		clearMenuBody()
 
-		switch choix {
-		case 1:
+		switch selection {
+		case 0:
 			afficherInventaire(joueur)
 			fmt.Println("\nAppuyez sur Entrée pour continuer...")
-			fmt.Scanln()
+			attendreEntree()
 			clearMenuBody()
-		case 2:
+		case 1:
 			utiliserPotion(joueur)
 			fmt.Println("\nAppuyez sur Entrée pour continuer...")
-			fmt.Scanln()
+			attendreEntree()
 			clearMenuBody()
-		case 3:
+		case 2:
 			return
-		default:
-			fmt.Println("Choix invalide, appuyez sur Entrée pour réessayer...")
-			fmt.Scanln()
-			clearMenuBody()
 		}
 	}
 }
 
-func afficherInventaire(joueur *Joueur) {
-	if len(joueur.Inventaire) == 0 {
-		fmt.Println("Votre inventaire est vide.")
+// afficherMenuAvecFleches affiche une liste d'options navigable avec ↑/↓ et valide avec Entrée.
+func afficherMenuAvecFleches(options []string) int {
+	// Initialiser clavier (mode raw)
+	if err := keyboard.Open(); err != nil {
+		// fallback simple si impossible d'initialiser: retourner première option
+		return 0
+	}
+	defer keyboard.Close()
+
+	index := 0
+	for {
+		// Affiche les options avec un curseur
+		for i, opt := range options {
+			prefix := "  "
+			if i == index {
+				prefix = "> "
+			}
+			fmt.Printf("%s%s\n", prefix, opt)
+		}
+		// Lire touche
+		char, key, err := keyboard.GetKey()
+		if err != nil {
+			return index
+		}
+
+		// Efface le bloc affiché
+		for range options {
+			fmt.Print("\033[A\033[2K")
+		}
+
+		switch key {
+		case keyboard.KeyArrowUp:
+			if index > 0 {
+				index--
+			} else {
+				index = len(options) - 1
+			}
+		case keyboard.KeyArrowDown:
+			if index < len(options)-1 {
+				index++
+			} else {
+				index = 0
+			}
+		case keyboard.KeyEnter:
+			return index
+		case keyboard.KeyEsc:
+			return len(options) - 1 // ESC: retourne sur la dernière option (souvent "Retour")
+		default:
+			// permet aussi Enter via '\r' si nécessaire
+			if char == '\r' || char == '\n' {
+				return index
+			}
+		}
+	}
+}
+
+func attendreEntree() {
+	if err := keyboard.Open(); err != nil {
+		// fallback: rien
 		return
 	}
-
-	fmt.Println("Inventaire :")
-	for i, objet := range joueur.Inventaire {
-		fmt.Printf("%d. %s\n", i+1, objet)
-	}
-}
-
-func utiliserPotion(joueur *Joueur) {
-	for i, objet := range joueur.Inventaire {
-		if objet == "Potion" {
-			if joueur.HP < joueur.HPMax {
-				soin := 20
-				joueur.HP += soin
-				if joueur.HP > joueur.HPMax {
-					joueur.HP = joueur.HPMax
-				}
-				fmt.Printf("Vous utilisez une potion ! +%d HP (%d/%d)\n", soin, joueur.HP, joueur.HPMax)
-				// Retirer la potion de l'inventaire
-				joueur.Inventaire = append(joueur.Inventaire[:i], joueur.Inventaire[i+1:]...)
-			} else {
-				fmt.Println("Vous avez déjà tous vos PV.")
-			}
+	defer keyboard.Close()
+	for {
+		_, key, err := keyboard.GetKey()
+		if err != nil {
+			return
+		}
+		if key == keyboard.KeyEnter {
 			return
 		}
 	}
-	fmt.Println("Vous n’avez pas de potion dans votre inventaire.")
 }
 
-func main() {
-	RunMenu()
+// enableANSIWindows active le support des séquences ANSI dans la console Windows
+func enableANSIWindows() {
+	if runtime.GOOS != "windows" {
+		return
+	}
+	h := windows.Handle(os.Stdout.Fd())
+	var mode uint32
+	if err := windows.GetConsoleMode(h, &mode); err != nil {
+		return
+	}
+	mode |= windows.ENABLE_VIRTUAL_TERMINAL_PROCESSING
+	_ = windows.SetConsoleMode(h, mode)
 }

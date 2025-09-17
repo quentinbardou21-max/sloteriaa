@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sloteriaa/internal/personnage"
 	"strings"
 )
 
@@ -22,7 +23,7 @@ func PoidsObjet(nom string) int {
 }
 
 // PoidsTotal calcule le poids total actuel de l'inventaire
-func PoidsTotal(j *Joueur) int {
+func PoidsTotal(j *personnage.Personnage) int {
 	total := 0
 	for _, objet := range j.Inventaire {
 		total += PoidsObjet(objet)
@@ -30,7 +31,7 @@ func PoidsTotal(j *Joueur) int {
 	return total
 }
 
-func afficherInventaire(j *Joueur) {
+func afficherInventaire(j *personnage.Personnage) {
 	if estInventaireVide(j) {
 		fmt.Println("🧳 Votre inventaire est vide.")
 		return
@@ -41,7 +42,7 @@ func afficherInventaire(j *Joueur) {
 	}
 }
 
-func utiliserPotion(j *Joueur) {
+func utiliserPotion(j *personnage.Personnage) {
 	if retirerObjetParNom(j, "potion") {
 		j.HP += 20
 		if j.HP > j.HPMax {
@@ -53,7 +54,7 @@ func utiliserPotion(j *Joueur) {
 	fmt.Println("❌ Vous n'avez pas de potion !")
 }
 
-func retirerObjet(j *Joueur, index int) {
+func retirerObjet(j *personnage.Personnage, index int) {
 	if index < 0 || index >= len(j.Inventaire) {
 		return
 	}
@@ -61,7 +62,7 @@ func retirerObjet(j *Joueur, index int) {
 }
 
 // ajouterObjet ajoute un objet à l'inventaire
-func ajouterObjet(j *Joueur, objet string) bool {
+func ajouterObjet(j *personnage.Personnage, objet string) bool {
 	poidsActuel := PoidsTotal(j)
 	poidsAjout := PoidsObjet(objet)
 	if poidsActuel+poidsAjout > PoidsMaxInventaire {
@@ -74,7 +75,7 @@ func ajouterObjet(j *Joueur, objet string) bool {
 
 // retirerObjetParNom retire le premier objet correspondant (insensible à la casse)
 // et retourne true si un objet a été retiré
-func retirerObjetParNom(j *Joueur, nom string) bool {
+func retirerObjetParNom(j *personnage.Personnage, nom string) bool {
 	for i, objet := range j.Inventaire {
 		if strings.EqualFold(objet, nom) {
 			retirerObjet(j, i)
@@ -84,6 +85,6 @@ func retirerObjetParNom(j *Joueur, nom string) bool {
 	return false
 }
 
-func estInventaireVide(j *Joueur) bool {
+func estInventaireVide(j *personnage.Personnage) bool {
 	return len(j.Inventaire) == 0
 }
