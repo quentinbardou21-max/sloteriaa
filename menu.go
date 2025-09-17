@@ -71,22 +71,14 @@ func startGame(joueur *personnage.Personnage) {
 	for {
 		afficherTitre()
 		fmt.Printf("Bienvenue, %s ! PV: %d/%d - Argent: %d\n", joueur.Nom, joueur.PVActuels, joueur.PVMax, joueur.Argent)
-		options := []string{"Afficher l'inventaire", "Utiliser une potion", "Retour au menu principal"}
+		options := []string{"Inventaire (↑/↓ + Entrée)", "Retour au menu principal"}
 		selection := afficherMenuAvecFleches(options)
 		clearMenuBody()
 
 		switch selection {
 		case 0:
-			afficherInventaire(joueur)
-			fmt.Println("\nAppuyez sur Entrée pour continuer...")
-			attendreEntree()
-			clearMenuBody()
+			afficherInventaireInteractif(joueur)
 		case 1:
-			utiliserPotion(joueur)
-			fmt.Println("\nAppuyez sur Entrée pour continuer...")
-			attendreEntree()
-			clearMenuBody()
-		case 2:
 			return
 		}
 	}
