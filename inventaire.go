@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+<<<<<<< Updated upstream
 	"sloteriaa/internal/personnage"
 	"strings"
 )
@@ -32,6 +33,12 @@ func PoidsTotal(j *personnage.Personnage) int {
 }
 
 func afficherInventaire(j *personnage.Personnage) {
+=======
+	"strings"
+)
+
+func afficherInventaire(j *Joueur) {
+>>>>>>> Stashed changes
 	if estInventaireVide(j) {
 		fmt.Println("🧳 Votre inventaire est vide.")
 		return
@@ -42,6 +49,7 @@ func afficherInventaire(j *personnage.Personnage) {
 	}
 }
 
+<<<<<<< Updated upstream
 func utiliserPotion(j *personnage.Personnage) {
 	if retirerObjetParNom(j, "potion") {
 		j.PVActuels += 20
@@ -50,17 +58,35 @@ func utiliserPotion(j *personnage.Personnage) {
 		}
 		fmt.Printf("💖 Potion utilisée ! PV : %d/%d\n", j.PVActuels, j.PVMax)
 		return
+=======
+func utiliserPotion(j *Joueur) {
+	for i, objet := range j.Inventaire {
+		if strings.ToLower(objet) == "potion" {
+			j.HP += 20
+			if j.HP > j.HPMax {
+				j.HP = j.HPMax
+			}
+			fmt.Printf("💖 Potion utilisée ! HP : %d/%d\n", j.HP, j.HPMax)
+			retirerObjet(j, i) // retire la potion de l'inventaire
+			return
+		}
+>>>>>>> Stashed changes
 	}
 	fmt.Println("❌ Vous n'avez pas de potion !")
 }
 
+<<<<<<< Updated upstream
 func retirerObjet(j *personnage.Personnage, index int) {
+=======
+func retirerObjet(j *Joueur, index int) {
+>>>>>>> Stashed changes
 	if index < 0 || index >= len(j.Inventaire) {
 		return
 	}
 	j.Inventaire = append(j.Inventaire[:index], j.Inventaire[index+1:]...)
 }
 
+<<<<<<< Updated upstream
 // ajouterObjet ajoute un objet à l'inventaire
 func ajouterObjet(j *personnage.Personnage, objet string) bool {
 	poidsActuel := PoidsTotal(j)
@@ -86,5 +112,8 @@ func retirerObjetParNom(j *personnage.Personnage, nom string) bool {
 }
 
 func estInventaireVide(j *personnage.Personnage) bool {
+=======
+func estInventaireVide(j *Joueur) bool {
+>>>>>>> Stashed changes
 	return len(j.Inventaire) == 0
 }
