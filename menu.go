@@ -19,9 +19,9 @@ func RunMenu() {
 	joueur := personnage.Personnage{
 		Nom:        "Héros",
 		Inventaire: []string{"Potion"},
-		Or:         50,
-		HP:         80,
-		HPMax:      100,
+		Argent:     50,
+		PVActuels:  80,
+		PVMax:      100,
 	}
 
 	afficherMenu(&joueur)
@@ -70,7 +70,7 @@ func clearScreen() {
 func startGame(joueur *personnage.Personnage) {
 	for {
 		afficherTitre()
-		fmt.Printf("Bienvenue, %s ! HP: %d/%d - Or: %d\n", joueur.Nom, joueur.HP, joueur.HPMax, joueur.Or)
+		fmt.Printf("Bienvenue, %s ! PV: %d/%d - Argent: %d\n", joueur.Nom, joueur.PVActuels, joueur.PVMax, joueur.Argent)
 		options := []string{"Afficher l'inventaire", "Utiliser une potion", "Retour au menu principal"}
 		selection := afficherMenuAvecFleches(options)
 		clearMenuBody()
