@@ -92,6 +92,7 @@ func startGame(joueur *personnage.Personnage) {
 	}
 }
 
+<<<<<<< HEAD
 // afficherMenuAvecFleches affiche une liste d'options navigable avec ↑/↓ et valide avec Entrée.
 func afficherMenuAvecFleches(options []string) int {
 	// Initialiser clavier (mode raw)
@@ -178,3 +179,6 @@ func enableANSIWindows() {
 	mode |= windows.ENABLE_VIRTUAL_TERMINAL_PROCESSING
 	_ = windows.SetConsoleMode(h, mode)
 }
+=======
+// afficherInventaire et utiliserPotion sont définies dans inventaire.go
+>>>>>>> 55990879bea5f86c431733b1adcdbc1699e30a0d
