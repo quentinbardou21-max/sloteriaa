@@ -110,3 +110,40 @@ func startGame(joueur *Joueur) {
 		}
 	}
 }
+
+func afficherInventaire(joueur *Joueur) {
+	if len(joueur.Inventaire) == 0 {
+		fmt.Println("Votre inventaire est vide.")
+		return
+	}
+
+	fmt.Println("Inventaire :")
+	for i, objet := range joueur.Inventaire {
+		fmt.Printf("%d. %s\n", i+1, objet)
+	}
+}
+
+func utiliserPotion(joueur *Joueur) {
+	for i, objet := range joueur.Inventaire {
+		if objet == "Potion" {
+			if joueur.HP < joueur.HPMax {
+				soin := 20
+				joueur.HP += soin
+				if joueur.HP > joueur.HPMax {
+					joueur.HP = joueur.HPMax
+				}
+				fmt.Printf("Vous utilisez une potion ! +%d HP (%d/%d)\n", soin, joueur.HP, joueur.HPMax)
+				// Retirer la potion de l'inventaire
+				joueur.Inventaire = append(joueur.Inventaire[:i], joueur.Inventaire[i+1:]...)
+			} else {
+				fmt.Println("Vous avez déjà tous vos PV.")
+			}
+			return
+		}
+	}
+	fmt.Println("Vous n’avez pas de potion dans votre inventaire.")
+}
+
+func main() {
+	RunMenu()
+}
