@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/quent/sloteriaa/struct/forgeron"
+	"sloteriaa/struct/forgeron"
 )
 
 func main() {

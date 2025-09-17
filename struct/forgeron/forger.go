@@ -9,7 +9,7 @@ import (
 
 	"github.com/mattn/go-tty"
 
-	"github.com/quent/sloteriaa/struct/objet"
+	"sloteriaa/struct/objet"
 )
 
 // Définition des matériaux utilisables à la forge

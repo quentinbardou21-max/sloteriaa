@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 
-	"github.com/quent/sloteriaa/struct/objet"
+	"sloteriaa/struct/objet"
 )
 
 type Monstre struct {
