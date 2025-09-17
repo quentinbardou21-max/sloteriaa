@@ -44,11 +44,11 @@ func afficherInventaire(j *personnage.Personnage) {
 
 func utiliserPotion(j *personnage.Personnage) {
 	if retirerObjetParNom(j, "potion") {
-		j.HP += 20
-		if j.HP > j.HPMax {
-			j.HP = j.HPMax
+		j.PVActuels += 20
+		if j.PVActuels > j.PVMax {
+			j.PVActuels = j.PVMax
 		}
-		fmt.Printf("💖 Potion utilisée ! HP : %d/%d\n", j.HP, j.HPMax)
+		fmt.Printf("💖 Potion utilisée ! PV : %d/%d\n", j.PVActuels, j.PVMax)
 		return
 	}
 	fmt.Println("❌ Vous n'avez pas de potion !")
