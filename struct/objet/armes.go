@@ -34,7 +34,7 @@ func CreerArme(nom string) Arme {
 	case "EpeeFer":
 		return Arme{"Épée en fer", "Épée solide et fiable", TypeArme, 35, 8}
 	case "EpeeMagique":
-		return Arme{"Épée magique", "Épée enchantée par la magie ancienne", TypeArme, 50, 6}
+		return Arme{"Épée magique", "Épée enchantée par la magie ancienne", TypeArme, 60, 6}
 	case "EpeeCourte":
 		return Arme{"Épée courte", "Épée rapide et maniable", TypeArme, 30, 4}
 
