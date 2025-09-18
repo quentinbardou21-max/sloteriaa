@@ -1,0 +1,42 @@
+{
+  "Joueur": {
+    "Nom": "Costa",
+    "Classe": "Humain",
+    "Niveau": 1,
+    "PVMax": 999999,
+    "PVActuels": 999999,
+    "Inventaire": [
+      "Épée",
+      "Épée magique",
+      "Casque en fer renforcé",
+      "Plastron en fer renforcé",
+      "Pantalon en fer renforcé",
+      "Bottes en fer renforcé"
+    ],
+    "Argent": 9999999,
+    "Attaque": "Épée magique",
+    "Force": 9999,
+    "Agilite": 9999,
+    "Endurance": 9999,
+    "ArmuresEquipees": {
+      "Bottes en fer renforcé": true,
+      "Casque en fer renforcé": true,
+      "Pantalon en fer renforcé": true,
+      "Plastron en fer renforcé": true
+    },
+    "Materiaux": {},
+    "BuffForce": 0,
+    "BuffAgilite": 0,
+    "BuffEndurance": 0,
+    "BuffCombats": 0
+  },
+  "Mats": {
+    "Cuir tanné": 9999,
+    "Essence magique": 9999,
+    "Lingot de fer": 9999,
+    "Or": 9999999,
+    "Planche de bois": 9999
+  },
+  "XP": 0,
+  "Level": 20
+}

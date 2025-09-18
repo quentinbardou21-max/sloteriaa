@@ -13,7 +13,7 @@ import (
 
 	"github.com/mattn/go-tty"
 
-	"github.com/quent/sloteriaa/struct/objet"
+	"sloteriaa/struct/objet"
 )
 
 // Enable ANSI sequences on Windows consoles (VT processing)
